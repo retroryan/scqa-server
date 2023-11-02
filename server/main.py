@@ -226,5 +226,5 @@ async def rate(rating: Rating) -> Response:
 @app.get("/health")
 async def health() -> Response:
     """Health check."""
-    # logger.info("health")
+    logger.info("health")
     return Response(status_code=200, content="OK")
