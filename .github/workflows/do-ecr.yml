@@ -1,0 +1,27 @@
+name: Build and push image to DOCR
+
+on:
+  - push
+  - pull_request
+
+jobs:
+  deploy:
+    name: Deploy
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@main
+
+      - name: Install doctl
+        uses: digitalocean/action-doctl@v2
+        with:
+         token: ${{ secrets.DIGITALOCEAN_ACCESS_TOKEN }}
+
+      - name: Build container image
+        env:
+          IMAGE_TAG: ${{ github.sha }}
+        run: |
+          docker build -t registry.digitalocean.com/healthcontainer/scqa:$(echo $IMAGE_TAG | head -c7) .
+          doctl registry login --expiry-seconds 1200
+          docker push registry.digitalocean.com/healthcontainer/scqa:$(echo $IMAGE_TAG | head -c7)

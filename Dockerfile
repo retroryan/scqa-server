@@ -37,6 +37,8 @@ RUN poetry install --no-dev
 ###############################################
 # Production Image
 ###############################################
+EXPOSE 80
+
 FROM python-base as production
 COPY --from=builder-base $PYSETUP_PATH $PYSETUP_PATH
 COPY ./server /server/
