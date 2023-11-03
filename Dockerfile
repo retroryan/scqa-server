@@ -37,9 +37,9 @@ RUN poetry install --no-dev
 ###############################################
 # Production Image
 ###############################################
-EXPOSE 80
+EXPOSE 8000
 
 FROM python-base as production
 COPY --from=builder-base $PYSETUP_PATH $PYSETUP_PATH
 COPY ./server /server/
-CMD ["uvicorn", "server.main:app", "--host", "0.0.0.0", "--port", "80"]
+CMD ["uvicorn", "server.main:app", "--host", "0.0.0.0", "--port", "8000"]
